@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cruise xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="cruise-config.xsd" schemaVersion="90">
+  <server artifactsdir="artifacts" agentAutoRegisterKey="123456789abcdef" commandRepositoryLocation="default" serverId="9d990e3b-44a6-4775-9948-c3d912d3b078">
+    <security>
+      <authConfigs>
+        <authConfig id="defaultAuth" pluginId="cd.go.authentication.passwordfile">
+          <property>
+            <key>PasswordFilePath</key>
+            <value>/go-working-dir/config/password.properties</value>
+          </property>
+        </authConfig>
+      </authConfigs>
+    </security>
+  </server>
+</cruise>

@@ -1,0 +1,29 @@
+version: "2"
+services:
+  go-server:
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    ports:
+      - "8153:8153"
+      - "8154:8154"    
+
+  goagent_java:
+    image: gocd/gocd-agent-ubuntu-16.04:v17.8.0
+    links:
+      - go-server
+    environment:
+      AGENT_AUTO_REGISTER_KEY: "123456789abcdef"
+      AGENT_AUTO_REGISTER_RESOURCES: "java"
+      GO_SERVER_URL: https://go-server:8154/go
+
+  goagent_dotnet:
+    build:
+      context: ./agent/
+      dockerfile: Dockerfile
+    links:
+      - go-server
+    environment:
+      AGENT_AUTO_REGISTER_KEY: "123456789abcdef"
+      AGENT_AUTO_REGISTER_RESOURCES: "dotnet-sdk"
+      GO_SERVER_URL: https://go-server:8154/go
