@@ -1,0 +1,32 @@
+version: "3"
+services:
+  go-server:
+    image: wgq890224/gocd-server:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8153:8153"
+      - "8154:8154"
+    networks:
+      - gocd
+
+  go-agent-dotnet:
+    image: wgq890224/gocd-agent-dotnetcore:latest
+    deploy:
+      # Run 2 agent by default.
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - go-server
+    environment:
+      AGENT_AUTO_REGISTER_KEY: "123456789abcdef"
+      AGENT_AUTO_REGISTER_RESOURCES: "DOTNETCore-SDK"
+      GO_SERVER_URL: https://go-server:8154/go
+    networks:
+      - gocd
+
+networks:
+  gocd:
